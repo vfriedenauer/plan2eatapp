@@ -1,24 +1,27 @@
-import './style.css'
-import typescriptLogo from './typescript.svg'
-import viteLogo from '/vite.svg'
-import { setupCounter } from './counter.ts'
+const startButton = document.getElementById('startButton') as HTMLButtonElement;
 
-document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="${viteLogo}" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://www.typescriptlang.org/" target="_blank">
-      <img src="${typescriptLogo}" class="logo vanilla" alt="TypeScript logo" />
-    </a>
-    <h1>Vite + TypeScript</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite and TypeScript logos to learn more
-    </p>
-  </div>
-`
+startButton?.addEventListener('click', () => {
+  window.location.href = 'speiseplan.html'; // Weiterleitung zu speiseplan.html
+});
 
-setupCounter(document.querySelector<HTMLButtonElement>('#counter')!)
+// HTML-Inhalt in den #app-Div einfügen
+document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
+  <header style="background-color: #EFF1F2; padding: 1rem;">
+    <img src="/src/logo.png" alt="Logo" style="height: 40px;" />
+  </header>
+  <main style="text-align: center; padding-top: 2rem;">
+    <h1 style="color: #1028BD;">Hallo</h1>
+    <button id="startButton"
+      style="
+        background-color: #90AC8F;
+        border: none;
+        padding: 1rem 2rem;
+        font-size: 1rem;
+        cursor: pointer;
+        border-radius: 8px;
+      "
+    >
+      Loslegen
+    </button>
+  </main>
+`;

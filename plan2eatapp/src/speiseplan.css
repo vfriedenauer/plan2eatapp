@@ -48,3 +48,10 @@ body {
     border-radius: 8px;
     cursor: grab;
   }
+  .hidden {
+    display: none;
+  }
+  
+  #addRecipeForm {
+    margin-top: 10px;
+  }

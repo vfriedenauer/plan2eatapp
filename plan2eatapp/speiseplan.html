@@ -4,36 +4,29 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Wochenplan</title>
-  <link rel="stylesheet" href="./speiseplan.css" />
+  <link rel="stylesheet" href="./src/speiseplan.css" />
 </head>
 <body>
   <div class="container">
-    <section class="left">
+    <div class="left">
       <h1>Dein Wochenplan</h1>
-      <div class="days">
-        <div class="day" data-day="Montag">Montag</div>
-        <div class="day" data-day="Dienstag">Dienstag</div>
-        <div class="day" data-day="Mittwoch">Mittwoch</div>
-        <div class="day" data-day="Donnerstag">Donnerstag</div>
-        <div class="day" data-day="Freitag">Freitag</div>
-        <div class="day" data-day="Samstag">Samstag</div>
-        <div class="day" data-day="Sonntag">Sonntag</div>
-      </div>
-    </section>
+      <div class="day" id="montag">Montag</div>
+      <div class="day" id="dienstag">Dienstag</div>
+      <div class="day" id="mittwoch">Mittwoch</div>
+      <div class="day" id="donnerstag">Donnerstag</div>
+      <div class="day" id="freitag">Freitag</div>
+      <div class="day" id="samstag">Samstag</div>
+      <div class="day" id="sonntag">Sonntag</div>
+    </div>
 
-    <section class="right">
-      <div class="header">
-        <h2>Lieblingsgerichte</h2>
-        <button id="menuToggle">☰</button>
-      </div>
-      <div id="recipe-list" class="recipes">
-        <div class="recipe" draggable="true" data-name="Spaghetti">Spaghetti</div>
-        <div class="recipe" draggable="true" data-name="Salat">Salat</div>
-        <div class="recipe" draggable="true" data-name="Pizza">Pizza</div>
-      </div>
-    </section>
+    <div class="right">
+      <h2>Lieblingsgerichte</h2>
+      <div class="recipe" draggable="true" data-name="Spaghetti">Spaghetti</div>
+      <div class="recipe" draggable="true" data-name="Salat">Salat</div>
+      <div class="recipe" draggable="true" data-name="Pizza">Pizza</div>
+    </div>
   </div>
 
-  <script type="module" src="./script.ts"></script>
+  <script type="module" src="/src/script.ts"></script>
 </body>
 </html>

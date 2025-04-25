@@ -11,8 +11,9 @@ window.addEventListener("DOMContentLoaded", () => {
   const addListBtn = document.getElementById("addListBtn") as HTMLButtonElement;
 
   let recipeLists: string[] = JSON.parse(localStorage.getItem("recipeLists") || "[]");
+  let selectedList: string = listSelection.value || recipeLists[0] || "";
 
- 
+  
   menuToggle.addEventListener("click", () => {
     burgerMenu.classList.toggle("hidden");
   });
@@ -36,6 +37,17 @@ window.addEventListener("DOMContentLoaded", () => {
       option.textContent = listName;
       listSelection.appendChild(option);
     });
+    listSelection.value = selectedList;
+    loadRecipesForSelectedList();
+  }
+
+ 
+  function loadRecipesForSelectedList() {
+    recipeList.innerHTML = ""; 
+    const storedRecipes = JSON.parse(localStorage.getItem(selectedList) || "[]");
+    storedRecipes.forEach((recipeName: string) => {
+      addRecipeToDOM(recipeName);
+    });
   }
 
   
@@ -44,18 +56,17 @@ window.addEventListener("DOMContentLoaded", () => {
     input.focus();
   });
 
-  
+ 
   saveBtn.addEventListener("click", () => {
     const recipeName = input.value.trim();
     if (recipeName === "") return;
 
-    const selectedList = listSelection.value;
     if (selectedList) {
       
       const storedRecipes = JSON.parse(localStorage.getItem(selectedList) || "[]");
       storedRecipes.push(recipeName);
       localStorage.setItem(selectedList, JSON.stringify(storedRecipes));
-      addRecipeToDOM(recipeName, selectedList);
+      addRecipeToDOM(recipeName);
     }
 
     input.value = "";
@@ -63,17 +74,36 @@ window.addEventListener("DOMContentLoaded", () => {
   });
 
   
-  function addRecipeToDOM(name: string, listName: string) {
+  function addRecipeToDOM(name: string) {
     const div = document.createElement("div");
     div.className = "recipe";
     div.textContent = name;
     div.draggable = true;
     div.dataset.name = name;
-    div.dataset.list = listName;
+    div.dataset.list = selectedList;
+
+    
+    const removeBtn = document.createElement("button");
+    removeBtn.textContent = "Entfernen";
+    removeBtn.className = "remove-btn";
+    removeBtn.addEventListener("click", () => {
+      removeRecipeFromList(name);
+      div.remove(); 
+    });
+
+    div.appendChild(removeBtn);
+
     div.addEventListener("dragstart", (e: DragEvent) => {
       e.dataTransfer?.setData("text/plain", name);
     });
     recipeList.appendChild(div);
+  }
+
+  
+  function removeRecipeFromList(recipeName: string) {
+    const storedRecipes = JSON.parse(localStorage.getItem(selectedList) || "[]");
+    const filteredRecipes = storedRecipes.filter((recipe: string) => recipe !== recipeName);
+    localStorage.setItem(selectedList, JSON.stringify(filteredRecipes));
   }
 
   
@@ -89,22 +119,27 @@ window.addEventListener("DOMContentLoaded", () => {
         const recipeEl = document.createElement("div");
         recipeEl.textContent = recipeName;
         recipeEl.classList.add("recipe");
+        
+        
+        const removeBtn = document.createElement("button");
+        removeBtn.textContent = "Entfernen";
+        removeBtn.className = "remove-btn";
+        removeBtn.addEventListener("click", () => {
+          recipeEl.remove(); 
+        });
+
+        recipeEl.appendChild(removeBtn);
         day.appendChild(recipeEl);
       }
     });
   });
 
-  
-  function loadStoredData() {
-    const storedRecipes = JSON.parse(localStorage.getItem("recipeLists") || "[]");
-    storedRecipes.forEach((listName: string) => {
-      const recipes = JSON.parse(localStorage.getItem(listName) || "[]");
-      recipes.forEach((recipeName: string) => {
-        addRecipeToDOM(recipeName, listName);
-      });
-    });
-  }
+ 
+  listSelection.addEventListener("change", () => {
+    selectedList = listSelection.value;
+    loadRecipesForSelectedList();
+  });
 
-  loadStoredData();
+  
   updateListSelection();
 });

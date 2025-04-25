@@ -1,6 +1,80 @@
 window.addEventListener("DOMContentLoaded", () => {
   const days = document.querySelectorAll(".day");
   const recipeList = document.getElementById("recipe-list") as HTMLDivElement;
+  const listSelection = document.getElementById("listSelection") as HTMLSelectElement;
+  const addBtn = document.getElementById("addRecipeBtn") as HTMLButtonElement;
+  const form = document.getElementById("addRecipeForm") as HTMLDivElement;
+  const input = document.getElementById("newRecipeInput") as HTMLInputElement;
+  const saveBtn = document.getElementById("saveRecipeBtn") as HTMLButtonElement;
+  const menuToggle = document.getElementById("menuToggle") as HTMLButtonElement;
+  const burgerMenu = document.getElementById("burgerMenu") as HTMLDivElement;
+  const addListBtn = document.getElementById("addListBtn") as HTMLButtonElement;
+
+  let recipeLists: string[] = JSON.parse(localStorage.getItem("recipeLists") || "[]");
+
+ 
+  menuToggle.addEventListener("click", () => {
+    burgerMenu.classList.toggle("hidden");
+  });
+
+  
+  addListBtn.addEventListener("click", () => {
+    const newListName = prompt("Name der neuen Liste:");
+    if (newListName && !recipeLists.includes(newListName)) {
+      recipeLists.push(newListName);
+      localStorage.setItem("recipeLists", JSON.stringify(recipeLists));
+      updateListSelection();
+    }
+  });
+
+
+  function updateListSelection() {
+    listSelection.innerHTML = "";
+    recipeLists.forEach((listName) => {
+      const option = document.createElement("option");
+      option.value = listName;
+      option.textContent = listName;
+      listSelection.appendChild(option);
+    });
+  }
+
+  
+  addBtn.addEventListener("click", () => {
+    form.classList.toggle("hidden");
+    input.focus();
+  });
+
+  
+  saveBtn.addEventListener("click", () => {
+    const recipeName = input.value.trim();
+    if (recipeName === "") return;
+
+    const selectedList = listSelection.value;
+    if (selectedList) {
+      
+      const storedRecipes = JSON.parse(localStorage.getItem(selectedList) || "[]");
+      storedRecipes.push(recipeName);
+      localStorage.setItem(selectedList, JSON.stringify(storedRecipes));
+      addRecipeToDOM(recipeName, selectedList);
+    }
+
+    input.value = "";
+    form.classList.add("hidden");
+  });
+
+  
+  function addRecipeToDOM(name: string, listName: string) {
+    const div = document.createElement("div");
+    div.className = "recipe";
+    div.textContent = name;
+    div.draggable = true;
+    div.dataset.name = name;
+    div.dataset.list = listName;
+    div.addEventListener("dragstart", (e: DragEvent) => {
+      e.dataTransfer?.setData("text/plain", name);
+    });
+    recipeList.appendChild(div);
+  }
 
   
   days.forEach(day => {
@@ -12,107 +86,25 @@ window.addEventListener("DOMContentLoaded", () => {
       e.preventDefault();
       const recipeName = e.dataTransfer?.getData("text/plain");
       if (recipeName) {
-       
-        if (!isRecipeInDay(day, recipeName)) {
-          const recipeEl = document.createElement("div");
-          recipeEl.textContent = recipeName;
-          recipeEl.classList.add("recipe");
-
-          
-          const removeBtn = document.createElement("button");
-          removeBtn.textContent = "Entfernen";
-          removeBtn.classList.add("remove-btn");
-          removeBtn.addEventListener("click", () => {
-            removeRecipeFromDay(recipeEl, day);
-          });
-
-          recipeEl.appendChild(removeBtn);
-          day.appendChild(recipeEl);
-        }
+        const recipeEl = document.createElement("div");
+        recipeEl.textContent = recipeName;
+        recipeEl.classList.add("recipe");
+        day.appendChild(recipeEl);
       }
     });
   });
 
-  const addBtn = document.getElementById("addRecipeBtn") as HTMLButtonElement;
-  const form = document.getElementById("addRecipeForm") as HTMLDivElement;
-  const input = document.getElementById("newRecipeInput") as HTMLInputElement;
-  const saveBtn = document.getElementById("saveRecipeBtn") as HTMLButtonElement;
-
-  addBtn.addEventListener("click", () => {
-    form.classList.toggle("hidden");
-    input.focus();
-  });
-
-  saveBtn.addEventListener("click", () => {
-    const recipeName = input.value.trim();
-    if (recipeName === "") return;
-
-    const stored = localStorage.getItem("recipes");
-    const recipes = stored ? JSON.parse(stored) : [];
-
-    
-    if (!recipes.includes(recipeName)) {
-      recipes.push(recipeName);
-      localStorage.setItem("recipes", JSON.stringify(recipes));
-
-      addRecipeToDOM(recipeName);
-    }
-    input.value = "";
-    form.classList.add("hidden");
-  });
-
-  const stored = localStorage.getItem("recipes");
-  if (stored) {
-    const recipes = JSON.parse(stored);
-    recipes.forEach((name: string) => addRecipeToDOM(name));
-  }
-
   
-  function addRecipeToDOM(name: string) {
-    const div = document.createElement("div");
-    div.className = "recipe";
-    div.textContent = name;
-    div.draggable = true;
-    div.dataset.name = name;
-
-    
-    const deleteBtn = document.createElement("button");
-    deleteBtn.textContent = "Löschen";
-    deleteBtn.className = "delete-btn";
-    deleteBtn.addEventListener("click", () => {
-      removeRecipe(name, div);
+  function loadStoredData() {
+    const storedRecipes = JSON.parse(localStorage.getItem("recipeLists") || "[]");
+    storedRecipes.forEach((listName: string) => {
+      const recipes = JSON.parse(localStorage.getItem(listName) || "[]");
+      recipes.forEach((recipeName: string) => {
+        addRecipeToDOM(recipeName, listName);
+      });
     });
-
-    div.appendChild(deleteBtn);
-
-   
-    div.addEventListener("dragstart", (e: DragEvent) => {
-      e.dataTransfer?.setData("text/plain", name);
-    });
-
-    recipeList.appendChild(div);
   }
 
- 
-  function removeRecipe(recipeName: string, recipeElement: HTMLElement) {
-    recipeElement.remove();
-
-    const stored = localStorage.getItem("recipes");
-    if (stored) {
-      const recipes = JSON.parse(stored);
-      const updatedRecipes = recipes.filter((recipe: string) => recipe !== recipeName);
-      localStorage.setItem("recipes", JSON.stringify(updatedRecipes));
-    }
-  }
-
- 
-  function removeRecipeFromDay(recipeElement: HTMLElement, day: Element) {
-    recipeElement.remove();
-  }
-
- 
-  function isRecipeInDay(day: Element, recipeName: string): boolean {
-    const dayRecipes = Array.from(day.querySelectorAll(".recipe"));
-    return dayRecipes.some(recipe => recipe.textContent === recipeName);
-  }
+  loadStoredData();
+  updateListSelection();
 });

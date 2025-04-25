@@ -26,6 +26,11 @@
       </div>
 
      
+      <div id="burgerMenu" class="hidden">
+        <button id="addListBtn">Neue Liste hinzufügen</button>
+        <select id="listSelection"></select>
+      </div>
+
       <div class="add-recipe-container">
         <button id="addRecipeBtn">+</button>
         <div id="addRecipeForm" class="hidden">
@@ -34,17 +39,9 @@
         </div>
       </div>
 
-      <div id="recipe-list" class="recipes">
-      
-      </div>
-
-     <!--mögliche Voreingestellte Gerichte kommen hier rein-->
-     
-      <!--<div class="recipe" draggable="true" data-name="Spaghetti">Spaghetti</div>
-      <div class="recipe" draggable="true" data-name="Salat">Salat</div>
-      <div class="recipe" draggable="true" data-name="Pizza">Pizza</div>
+      <div id="recipe-list" class="recipes"></div>
     </section>
-  </div>-->
+  </div>
 
   <script type="module" src="/src/script.ts"></script>
 </body>

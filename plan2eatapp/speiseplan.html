@@ -19,24 +19,30 @@
       <div class="day" id="sonntag">Sonntag</div>
     </div>
 
-    <div class="right">
-      <h2>Lieblingsgerichte</h2>
+    <section class="right">
+      <div class="header">
+        <h2>Lieblingsgerichte</h2>
+        <button id="menuToggle">☰</button>
+      </div>
+
+     
+      <div class="add-recipe-container">
+        <button id="addRecipeBtn">+</button>
+        <div id="addRecipeForm" class="hidden">
+          <input type="text" id="newRecipeInput" placeholder="Neues Rezept..." />
+          <button id="saveRecipeBtn">Speichern</button>
+        </div>
+      </div>
+
+      <div id="recipe-list" class="recipes">
+      
+      </div>
+
+     
       <div class="recipe" draggable="true" data-name="Spaghetti">Spaghetti</div>
       <div class="recipe" draggable="true" data-name="Salat">Salat</div>
       <div class="recipe" draggable="true" data-name="Pizza">Pizza</div>
-    </div>
-  </div>
-
-  <div class="header">
-    <h2>Lieblingsgerichte</h2>
-    <button id="menuToggle">☰</button>
-    <button id="addRecipeBtn">＋</button>
-  </div>
-  
-  <!-- Eingabeformular für neue Gerichte -->
-  <div id="addRecipeForm" class="hidden">
-    <input type="text" id="newRecipeInput" placeholder="Neues Gericht" />
-    <button id="saveRecipeBtn">Hinzufügen</button>
+    </section>
   </div>
 
   <script type="module" src="/src/script.ts"></script>

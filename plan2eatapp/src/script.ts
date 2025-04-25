@@ -2,7 +2,7 @@ window.addEventListener("DOMContentLoaded", () => {
   const days = document.querySelectorAll(".day");
   const recipeList = document.getElementById("recipe-list") as HTMLDivElement;
 
-  // Drag & Drop Logik
+  
   days.forEach(day => {
     day.addEventListener("dragover", (e) => {
       e.preventDefault();
@@ -20,7 +20,7 @@ window.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Hinzufügen-Formular Logik
+ 
   const addBtn = document.getElementById("addRecipeBtn") as HTMLButtonElement;
   const form = document.getElementById("addRecipeForm") as HTMLDivElement;
   const input = document.getElementById("newRecipeInput") as HTMLInputElement;
@@ -35,7 +35,7 @@ window.addEventListener("DOMContentLoaded", () => {
     const recipeName = input.value.trim();
     if (recipeName === "") return;
 
-    // Aus localStorage holen
+    
     const stored = localStorage.getItem("recipes");
     const recipes = stored ? JSON.parse(stored) : [];
 
@@ -47,20 +47,20 @@ window.addEventListener("DOMContentLoaded", () => {
     form.classList.add("hidden");
   });
 
-  // Rezepte beim Start laden
+ 
   const stored = localStorage.getItem("recipes");
   if (stored) {
     const recipes = JSON.parse(stored);
     recipes.forEach((name: string) => addRecipeToDOM(name));
   }
 
-  // Rezept-Karte zur DOM hinzufügen
+  
   function addRecipeToDOM(name: string) {
     const div = document.createElement("div");
     div.className = "recipe";
     div.textContent = name;
     div.draggable = true;
-    div.dataset.name = name; // ← wichtig für Drag & Drop
+    div.dataset.name = name; 
     div.addEventListener("dragstart", (e: DragEvent) => {
       e.dataTransfer?.setData("text/plain", name);
     });

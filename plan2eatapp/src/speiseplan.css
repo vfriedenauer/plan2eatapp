@@ -1,29 +1,73 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f2eddb;
+  margin: 0;
+  padding: 20px;
+}
+
+.container {
+  display: flex;
+  gap: 20px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.left, .right {
+  flex: 1;
+}
+
+h1, h2 {
+  color: #000;
+}
+
+.days {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+
 .day {
   padding: 10px;
   background-color: #fff;
   border: 2px dashed #ccc;
   border-radius: 10px;
   min-height: 50px;
-  margin-bottom: 20px; 
 }
 
-h1 {
-  font-size: 24px;
-  margin-bottom: 20px;
-}
-
-h2 {
-  font-size: 24px;
-  margin-bottom: 20px;
-}
-
-#burgerMenu {
+.recipes {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  margin-top: 10px;
 }
 
-#deleteListBtn {
+.recipe {
+  background-color: #ffffff;
+  border: 1px solid #aaa;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: grab;
+}
+.hidden {
+  display: none;
+}
+
+#addRecipeForm {
+  margin-top: 10px;
+}
+
+.recipe {
+  background-color: #ffffff;
+  border: 1px solid #aaa;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: grab;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.delete-btn {
   background-color: #ff4d4d;
   border: none;
   color: white;
@@ -31,12 +75,10 @@ h2 {
   border-radius: 5px;
   cursor: pointer;
 }
-
-#deleteListBtn:hover {
+.delete-btn:hover {
   background-color: #e60000;
 }
 
-select {
-  padding: 5px;
-  border-radius: 5px;
+.recipe {
+  cursor: move;
 }

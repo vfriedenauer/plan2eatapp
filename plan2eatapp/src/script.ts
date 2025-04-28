@@ -153,6 +153,7 @@ window.addEventListener("DOMContentLoaded", () => {
   listSelection.addEventListener("change", () => {
     selectedList = listSelection.value;
     loadRecipesForSelectedList();
+    currentListName.textContent = selectedList || "Keine Liste ausgewählt";
   });
 
   updateListSelection();

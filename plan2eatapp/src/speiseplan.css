@@ -1,8 +1,12 @@
 body {
   font-family: Arial, sans-serif;
-  background-color: #f2eddb;
+  background-color: #EFF1F2; /* <- neue Hintergrundfarbe */
   margin: 0;
   padding: 20px;
+}
+
+h1, h2 {
+  color: #1028BD; /* <- neue Überschriftenfarbe */
 }
 
 .container {
@@ -16,9 +20,6 @@ body {
   flex: 1;
 }
 
-h1, h2 {
-  color: #000;
-}
 
 .days {
   display: flex;

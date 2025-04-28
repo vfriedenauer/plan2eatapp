@@ -83,3 +83,20 @@ h1, h2 {
 .recipe {
   cursor: move;
 }
+.top-bar {
+  background-color: #ffffff;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+  height: 80px;
+}
+.app-title {
+  font-size: 24px;
+  color: #1028BD; 
+  margin: 0;
+  padding: 20px;
+}

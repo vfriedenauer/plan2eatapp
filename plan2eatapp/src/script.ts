@@ -31,31 +31,22 @@ window.addEventListener("DOMContentLoaded", () => {
 
 
   deleteListBtn.addEventListener("click", () => {
-    if (recipeLists.length === 0) {
-      alert("Keine Liste zum Löschen vorhanden.");
+    if (!selectedList) {
+      alert("Keine Liste ausgewählt.");
       return;
     }
-
-    const listToDelete = prompt(`Welche Liste möchtest du löschen?\nVorhandene Listen:\n${recipeLists.join("\n")}`);
-    if (listToDelete && recipeLists.includes(listToDelete)) {
-      if (confirm(`Bist du sicher, dass du die Liste "${listToDelete}" löschen möchtest?`)) {
-     
-        recipeLists = recipeLists.filter(list => list !== listToDelete);
-        localStorage.setItem("recipeLists", JSON.stringify(recipeLists));
-
-        localStorage.removeItem(listToDelete);
-
   
-        if (selectedList === listToDelete) {
-          selectedList = recipeLists[0] || "";
-        }
-        updateListSelection();
-      }
-    } else if (listToDelete) {
-      alert("Liste nicht gefunden!");
+    if (confirm(`Möchtest du die Liste "${selectedList}" wirklich löschen?`)) {
+     
+      recipeLists = recipeLists.filter(list => list !== selectedList);
+      localStorage.setItem("recipeLists", JSON.stringify(recipeLists));
+      localStorage.removeItem(selectedList);
+  
+      
+      selectedList = recipeLists[0] || "";
+      updateListSelection();
     }
   });
-
   function updateListSelection() {
     listSelection.innerHTML = "";
     recipeLists.forEach((listName) => {

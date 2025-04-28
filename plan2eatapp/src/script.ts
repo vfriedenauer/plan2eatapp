@@ -9,9 +9,10 @@ window.addEventListener("DOMContentLoaded", () => {
   const menuToggle = document.getElementById("menuToggle") as HTMLButtonElement;
   const burgerMenu = document.getElementById("burgerMenu") as HTMLDivElement;
   const addListBtn = document.getElementById("addListBtn") as HTMLButtonElement;
+  const currentListName = document.getElementById("currentListName") as HTMLSpanElement;
 
  
-  const deleteListBtn = document.getElementById("deleteListBtn") as HTMLButtonElement; // <--- das brauchen wir
+  const deleteListBtn = document.getElementById("deleteListBtn") as HTMLButtonElement; 
 
   let recipeLists: string[] = JSON.parse(localStorage.getItem("recipeLists") || "[]");
   let selectedList: string = listSelection.value || recipeLists[0] || "";
@@ -27,6 +28,7 @@ window.addEventListener("DOMContentLoaded", () => {
       localStorage.setItem("recipeLists", JSON.stringify(recipeLists));
       updateListSelection();
     }
+    currentListName.textContent = selectedList;
   });
 
 
@@ -34,6 +36,7 @@ window.addEventListener("DOMContentLoaded", () => {
     if (!selectedList) {
       alert("Keine Liste ausgewählt.");
       return;
+      
     }
   
     if (confirm(`Möchtest du die Liste "${selectedList}" wirklich löschen?`)) {
@@ -45,6 +48,7 @@ window.addEventListener("DOMContentLoaded", () => {
       
       selectedList = recipeLists[0] || "";
       updateListSelection();
+      currentListName.textContent = selectedList || "Keine Liste ausgewählt";
     }
   });
   function updateListSelection() {
@@ -54,9 +58,11 @@ window.addEventListener("DOMContentLoaded", () => {
       option.value = listName;
       option.textContent = listName;
       listSelection.appendChild(option);
+      
     });
     listSelection.value = selectedList;
     loadRecipesForSelectedList();
+    currentListName.textContent = selectedList || "Keine Liste ausgewählt";
   }
 
   function loadRecipesForSelectedList() {
